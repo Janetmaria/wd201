@@ -24,7 +24,7 @@ const todoList = () => {
         .map((todo) => {
             const checkbox = todo.completed ? "[X]" : "[ ]"
             const displayDate = todo.dueDate ===today ? "" : `${todo.dueDate}`
-            return `${checkbox} ${todo.title}${displayDate}`
+            return `${checkbox} ${todo.title} ${displayDate}`
         }) 
         .join("\n")
     }
