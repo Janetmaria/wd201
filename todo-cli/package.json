@@ -6,10 +6,10 @@
     "test": "jest"
   },
   "lint-staged": {
-  "*.js": [
-  "eslint",
-  "prettier --write ."
-  ]
+    "*.js": [
+      "eslint",
+      "prettier --write ."
+    ]
   },
   "author": "Janetmaria <janetsaji1652@gmail.com>",
   "license": "ISC",

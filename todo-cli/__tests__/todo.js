@@ -1,14 +1,4 @@
 const todoList = require("../todo");
-const todos = todoList();
-const {
-  all,
-  markAsComplete,
-  add,
-  overdue,
-  dueToday,
-  dueLater,
-  toDisplayableList,
-} = todos;
 
 const formattedDate = (d) => {
   return d.toISOString().split("T")[0];
@@ -23,6 +13,16 @@ const tomorrow = formattedDate(
 );
 
 describe("TodoList Test Suite", () => {
+  const todos = todoList();
+  const {
+    all,
+    markAsComplete,
+    add,
+    overdue,
+    dueToday,
+    dueLater,
+    toDisplayableList,
+  } = todos;
   beforeAll(() => {
     add({ title: "Overdue Task", completed: false, dueDate: yesterday });
     add({ title: "Today incomplete", completed: false, dueDate: today });
