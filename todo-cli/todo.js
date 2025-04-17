@@ -30,7 +30,7 @@ const todoList = () => {
     return list
       .map((todo) => {
         const checkbox = todo.completed ? "[x]" : "[ ]";
-        const displayDate = todo.dueDate === today ? "" : ` ${todo.dueDate}`;
+        const displayDate = todo.dueDate === today ? "" : `${todo.dueDate}`;
         return `${checkbox} ${todo.title} ${displayDate}`;
       })
       .join("\n");
