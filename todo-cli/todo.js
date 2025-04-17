@@ -5,14 +5,15 @@ const todoList = () => {
     return d.toISOString().split("T")[0];
   };
 
-  var dateToday = new Date();
-  const today = formattedDate(dateToday);
+  const today = formattedDate(new Date());
 
   const add = (todoItem) => {
     all.push(todoItem);
   };
   const markAsComplete = (index) => {
-    all[index].completed = true;
+    if (index >= 0 && index < all.length) {
+      all[index].completed = true;
+    }
   };
 
   const overdue = () => {
@@ -32,7 +33,7 @@ const todoList = () => {
       .map((todo) => {
         const checkbox = todo.completed ? "[x]" : "[ ]";
         const displayDate = todo.dueDate === today ? "" : `${todo.dueDate}`;
-        return `${checkbox} ${todo.title} ${displayDate}`;
+        return `${checkbox} ${todo.title} ${displayDate ? " " + displayDate : ""}`;
       })
       .join("\n");
   };
