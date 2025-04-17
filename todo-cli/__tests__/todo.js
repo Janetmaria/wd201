@@ -13,17 +13,19 @@ const tomorrow = formattedDate(
 );
 
 describe("TodoList Test Suite", () => {
-  const todos = todoList();
-  const {
-    all,
-    markAsComplete,
-    add,
-    overdue,
-    dueToday,
-    dueLater,
-    toDisplayableList,
-  } = todos;
-  beforeAll(() => {
+  let todos;
+  let all, add, markAsComplete, overdue, dueToday, dueLater, toDisplayableList;
+  beforeEach(() => {
+    todos = todoList();
+    ({
+      all,
+      markAsComplete,
+      add,
+      overdue,
+      dueToday,
+      dueLater,
+      toDisplayableList,
+    } = todos);
     add({ title: "Overdue Task", completed: false, dueDate: yesterday });
     add({ title: "Today incomplete", completed: false, dueDate: today });
     add({ title: "Today complete", completed: true, dueDate: today });
