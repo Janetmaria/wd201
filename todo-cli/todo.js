@@ -1,44 +1,54 @@
 const todoList = () => {
-    let all =[]
-    const add = (todoItem) => {
-        all.push(todoItem)
-    }
-    const markAsComplete = (index) => {
-        all[index].completed = true
-    }
+  let all = [];
 
-    const overdue = () => {
-        return all.filter((todo) => todo.dueDate < today)
-    }
+  const formattedDate = (d) => {
+    return d.toISOString().split("T")[0];
+  };
 
-    const dueToday = () => {
-        return all.filter((todo) => todo.dueDate === today)
-    }
+  var dateToday = new Date();
+  const today = formattedDate(dateToday);
 
-    const dueLater = () => {
-        return all.filter((todo) => todo.dueDate > today)
-    }
+  const add = (todoItem) => {
+    all.push(todoItem);
+  };
+  const markAsComplete = (index) => {
+    all[index].completed = true;
+  };
 
-    const toDisplayableList = (list) => {
-        return list
-        .map((todo) => {
-            const checkbox = todo.completed ? "[x]" : "[ ]"
-            const displayDate = todo.dueDate ===today ? "" : `${todo.dueDate}`
-            return `${checkbox} ${todo.title} ${displayDate}`
-        }) 
-        .join("\n")
-    }
+  const overdue = () => {
+    return all.filter((todo) => todo.dueDate < today);
+  };
 
-    return{
-        all,
-        add,
-        markAsComplete,
-        overdue,
-        dueToday,
-        dueLater,
-        toDisplayableList
-    };
+  const dueToday = () => {
+    return all.filter((todo) => todo.dueDate === today);
+  };
+
+  const dueLater = () => {
+    return all.filter((todo) => todo.dueDate > today);
+  };
+
+  const toDisplayableList = (list) => {
+    return list
+      .map((todo) => {
+        const checkbox = todo.completed ? "[x]" : "[ ]";
+        const displayDate = todo.dueDate === today ? "" : `${todo.dueDate}`;
+        return `${checkbox} ${todo.title} ${displayDate}`;
+      })
+      .join("\n");
+  };
+
+  return {
+    all,
+    add,
+    markAsComplete,
+    overdue,
+    dueToday,
+    dueLater,
+    toDisplayableList,
+  };
 };
+
+module.exports = todoList;
 
 /*const todos = todoList();
 
@@ -80,6 +90,3 @@ let itemsDueLater = todos.dueLater()
 let formattedItemsDueLater = todos.toDisplayableList(itemsDueLater)
 console.log(formattedItemsDueLater)
 console.log("\n\n")*/
-
-module.exports = todoList;
-
