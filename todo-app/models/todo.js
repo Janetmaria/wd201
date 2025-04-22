@@ -18,6 +18,10 @@ module.exports = (sequelize, DataTypes) => {
     markAsCompleted() {
       return this.update({ completed: true });
     }
+
+    static getTodos() {
+      return this.findAll();
+    }
   }
   Todo.init(
     {
