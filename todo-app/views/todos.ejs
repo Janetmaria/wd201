@@ -6,7 +6,7 @@
   const dueLater = allTodos.filter(todo => todo.dueDate > today && !todo.completed);
 %>
 
-<section>
+<section style="border: none; padding: 0;">
     <h5>Overdue <span id="count-overdue">(<%= overdue.length %>)</span></h5>
 <ul class="list-none">
   <% overdue.forEach(todo => { %>
@@ -26,7 +26,7 @@
 </ul>
 </section>
 
-<section>
+<section style="border: none; padding: 0;">
     <h5>Due Today <span id="count-due-today">(<%= dueToday.length %>)</span></h5>
 <ul class="list-none">
   <% dueToday.forEach(todo => { %>
@@ -46,7 +46,7 @@
 </ul>
 </section>
 
-<section>
+<section style="border: none; padding: 0;">
     <h5>Due Later <span id="count-due-later">(<%= dueLater.length %>)</span></h5>
 <ul class="list-none">
   <% dueLater.forEach(todo => { %>
