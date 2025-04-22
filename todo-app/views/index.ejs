@@ -1,14 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../public/css/styles.css">
-    <title>Document</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/css/styles.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>To-Do Manager</title>
 </head>
 <body>
-    <%- include("header.ejs") %>
-    <%- include("todos.ejs", {allTodos: allTodos }) %>
-    <%- include("footer.ejs") %>
+  <div class="grid grid-cols-6">
+    <div class="col-start-3 col-span-2">
+
+      <!-- Header Section -->
+      <%- include("header") %>
+
+      <!-- Form to Add New Todo -->
+      <form action="/todos" method="POST">
+        <div class="flex flex-wrap items-center gap-2 py-4">
+          <div class="flex-auto">
+            <input type="text" name="title" placeholder="Enter a new to-do"
+              class="border border-gray-300 rounded text-gray-900 w-full p-2 text-sm" required />
+          </div>
+          <div class="flex-auto">
+            <input type="date" name="dueDate"
+              class="border border-gray-300 rounded text-gray-900 w-full p-2 text-sm" required />
+          </div>
+          <div class="flex-none">
+            <button type="submit"
+              class="bg-green-600 text-white px-5 py-1.5 rounded font-medium">Add</button>
+          </div>
+        </div>
+      </form>
+
+      <!-- Render Todos -->
+      <%- include("todos", { allTodos: allTodos }) %>
+
+      <!-- Footer -->
+      <%- include("footer") %>
+
+    </div>
+  </div>
 </body>
 </html>
