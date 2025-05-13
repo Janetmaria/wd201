@@ -15,12 +15,35 @@ module.exports = (sequelize, DataTypes) => {
       return this.create({ title: title, dueDate: dueDate, completed: false });
     }
 
+    static async overdue() {
+      return this.findAll({
+        where: {
+          dueDate: {
+            [Op.lt]: new Date().toISOString().slice(0, 10),
+          },
+          completed: false,
+        },
+      });
+    }
+
+    static async dueLater() {
+      return this.findAll({
+        where: {
+          dueDate: {
+            [Op.gt]: new Date().toISOString().slice(0, 10),
+          },
+          completed: false,
+        },
+      });
+    }
+
     static async dueToday() {
       return this.findAll({
         where: {
           dueDate: {
-            [Op.eq]: new Date(),
+            [Op.eq]: new Date().toISOString().slice(0, 10),
           },
+          completed: false,
         },
       });
     }

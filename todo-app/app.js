@@ -1,31 +1,38 @@
 const express = require("express");
+var csrf = require("csurf");
+var cookieParser = require("cookie-parser");
 const app = express();
 const { Todo } = require("./models");
 const bodyParser = require("body-parser");
 const path = require("path");
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser("ssh! some secret string"));
+app.use(csrf({ cookie: true }));
 
 app.set("view engine", "ejs");
 
 app.get("/", async (request, response) => {
-  const allTodos = await Todo.getTodos();
   if (request.accepts("html")) {
-    response.render("index", {
+    const allTodos = await Todo.getTodos();
+    return response.render("index", {
       allTodos,
+      csrfToken: request.csrfToken(),
     });
   } else {
-    response.json({
-      allTodos,
+    const overdue = await Todo.overdue();
+    const dueToday = await Todo.dueToday();
+    const dueLater = await Todo.dueLater();
+
+    return response.json({
+      overdue,
+      dueToday,
+      dueLater,
     });
   }
 });
 
 app.use(express.static(path.join(__dirname, "public")));
-
-app.get("/", function (request, response) {
-  response.send("Hello World");
-});
 
 app.get("/todos", async function (_request, response) {
   console.log("Processing list of all Todos ...");
