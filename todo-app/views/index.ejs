@@ -8,15 +8,13 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     var token= document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-    function updateTodo(id) {
-      fetch(`/todos/${id}/marksAsCompleted`, {
-        method: "put",
+    function toggleCompletionStatus(id, completed) {
+      fetch(`/todos/${id}`, {
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          _csrf: token,
-        }),
+        body: JSON.stringify({ completed: completed, _csrf: token }),
       })
       .then((res) => {
         if (res.ok) {
@@ -26,15 +24,14 @@
       .catch((err) => console.error(err));
     }
 
-    function deleteTodo(id){
+    // Delete Todo
+    function deleteTodo(id) {
       fetch(`/todos/${id}`, {
-        method: "delete",
+        method: "DELETE",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          _csrf: token,
-        }),
+        body: JSON.stringify({ _csrf: token }),
       })
       .then((res) => {
         if (res.ok) {
@@ -42,6 +39,13 @@
         }
       })
       .catch((err) => console.error(err)); 
+    }
+    
+    // Validate form fields
+    function validateForm() {
+      const title = document.getElementById('title').value;
+      const dueDate = document.getElementById('dueDate').value;
+      return title && dueDate;
     }
   </script>
   <title>To-Do Manager</title>
@@ -73,7 +77,7 @@
       </form>
 
       <!-- Render Todos -->
-      <%- include("todos", { allTodos: allTodos }) %>
+      <%- include("todos", { overdue, dueToday, dueLater, completed }) %>
 
       <!-- Footer -->
       <%- include("footer") %>
