@@ -71,7 +71,7 @@ app.delete("/todos/:id", async (request, response) => {
     await Todo.remove(request.params.id);
     return response.json({ success: true });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return response.status(422).json(error);
   }
 });
