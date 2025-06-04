@@ -80,7 +80,7 @@ describe("Todo Application", function () {
     });
 
     const groupedTodosResponse = await agent
-      .get("/todos")
+      .get("/")
       .set("Accept", "application/json");
     const parsedGroupedResponse = JSON.parse(groupedTodosResponse.text);
 
@@ -89,7 +89,7 @@ describe("Todo Application", function () {
     const dueTodayCount = parsedGroupedResponse.dueToday.length;
     const latestTodo = parsedGroupedResponse.dueToday[dueTodayCount - 1];
 
-    res = await agent.get("/todos");
+    res = await agent.get("/");
     csrfToken = extractCsrfToken(res);
 
     const deletedResponse = await agent.delete(`/todos/${latestTodo.id}`).send({
