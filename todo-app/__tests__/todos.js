@@ -67,6 +67,24 @@ describe("Todo Application", function () {
     expect(parsedUpdateResponse.completed).toBe(true);
   });
 
+  const groupedTodosResponse = await agent
+      .get("/")
+      .set("Accept", "application/json");
+    const parsedGroupedResponse = JSON.parse(groupedTodosResponse.text);
+
+    expect(parsedGroupedResponse.dueToday).toBeDefined();
+
+    const dueTodayCount = parsedGroupedResponse.dueToday.length;
+    const latestTodo = parsedGroupedResponse.dueToday[dueTodayCount - 1];
+
+    res = await agent.get("/");
+    csrfToken = extractCsrfToken(res);
+
+    const deletedResponse = await agent.delete(`/todos/${latestTodo.id}`).send({
+      _csrf: csrfToken,
+    });
+    expect(deletedResponse.statusCode).toBe(200);
+  });
   //   test("Fetches all todos in the database using /todos endpoint", async () => {
   //     await agent.post("/todos").send({
   //       title: "Buy xbox",
