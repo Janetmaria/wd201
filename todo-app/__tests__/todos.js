@@ -10,11 +10,11 @@ function extractCsrfToken(res) {
   return $("input[name=_csrf]").val();
 }
 
-const login = async (agent, username, password) => {
+const login = async (agent, email, password) => {
   let res = await agent.get("/login");
   const csrfToken = extractCsrfToken(res);
   res = await agent.post("/session").send({
-    email: username,
+    email: email,
     password: password,
     _csrf: csrfToken,
   });

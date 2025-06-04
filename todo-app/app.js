@@ -70,6 +70,40 @@ passport.deserializeUser((id, done) => {
 
 app.set("view engine", "ejs");
 
+
+passport.use(new LocalStrategy({
+  usernameField: 'email',
+  passwordField: 'password',
+}, (username, password, done) => {
+  User.findOne({ where: { email: username } })
+  .then(async function (user) {
+    const result = await bcrypt.compare(password, user.password);
+    if (result) {
+      return done(null, user);
+    } else {
+      return done(null, false, { message: "Invalid password" });
+    }
+  })
+  .catch((error) => {
+    return done(error);
+  });
+}));
+
+passport.serializeUser((user, done) => {
+  console.log("Serializing user:", user.id);
+  done(null, user.id);
+});
+
+passport.deserializeUser((id, done) => {
+  User.findByPk(id)
+  .then(user => {
+    done(null, user);
+  })
+  .catch(error => {
+    done(error, null);
+  });
+});
+
 app.get("/", async (request, response) => {
   response.render("index", {
     title: "Todo Application",
@@ -189,7 +223,7 @@ app.put("/todos/:id",connectEnsureLogin.ensureLoggedIn, async function (request,
 app.delete("/todos/:id", connectEnsureLogin.ensureLoggedIn, async (request, response) => {
   console.log("We have to delete a Todo with ID: ", request.params.id);
   try {
-    await Todo.remove(request.params.id);
+    await Todo.remove(request.params.id, request.user.id);
     return response.json({ success: true });
   } catch (error) {
     console.error(error);
