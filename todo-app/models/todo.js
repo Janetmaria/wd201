@@ -7,51 +7,58 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    //static associate(models) {
+    static associate(models) {
+      Todo.belongsTo(models.User, {
+        foreignKey: "userId",
+      });
     // define association here
-    //}
-
-    static addTodo({ title, dueDate }) {
-      return this.create({ title: title, dueDate: dueDate, completed: false });
     }
 
-    static async overdue() {
+    static addTodo({ title, dueDate, userId }) {
+      return this.create({ title: title, dueDate: dueDate, completed: false, userId });
+    }
+
+    static async overdue(userId) {
       return this.findAll({
         where: {
           dueDate: {
             [Op.lt]: new Date().toISOString().slice(0, 10),
           },
+          userId,
           completed: false,
         },
       });
     }
 
-    static async dueLater() {
+    static async dueLater(userId) {
       return this.findAll({
         where: {
           dueDate: {
             [Op.gt]: new Date().toISOString().slice(0, 10),
           },
+          userId,
           completed: false,
         },
       });
     }
 
-    static async dueToday() {
+    static async dueToday(userId) {
       return this.findAll({
         where: {
           dueDate: {
             [Op.eq]: new Date().toISOString().slice(0, 10),
           },
+          userId,
           completed: false,
         },
       });
     }
 
-    static async remove(id) {
+    static async remove(id, userId) {
       return await this.destroy({
         where: { 
           id,
+          userId,
         },
       });
     }
