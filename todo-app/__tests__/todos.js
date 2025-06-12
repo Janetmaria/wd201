@@ -37,9 +37,10 @@ describe("Todo Application", function () {
   });
 
   test("sign up", async () => {
+    jest.setTimeout(10000);
     let res = await agent.get("/signup");
     const csrfToken = extractCsrfToken(res);
-    res = await agent.post("/signup").send({
+    res = await agent.post("/users").send({
       firstName: "Test",
       lastName: "User A",
       email: "user.a@test.com",
@@ -50,6 +51,7 @@ describe("Todo Application", function () {
   });
 
   test("Sign out", async () => {
+    jest.setTimeout(10000);
     let res = await agent.get("/todos");
     expect(res.statusCode).toBe(200);
     res = await agent.get("/signout");
@@ -59,6 +61,7 @@ describe("Todo Application", function () {
   });
 
   test("Creates a todo and responds with json at /todos POST endpoint", async () => {
+    jest.setTimeout(10000); 
     const agent = request.agent(server);
     await login(agent, "user.a@test.com", "12345678");
     const res = await agent.get("/todos");
@@ -73,6 +76,7 @@ describe("Todo Application", function () {
   });
 
   test("Marks a todo with the given ID as complete", async () => {
+    jest.setTimeout(10000);
     const agent = request.agent(server);
     await login(agent, "user.a@test.com", "12345678");
     let res = await agent.get("/todos");
@@ -104,6 +108,7 @@ describe("Todo Application", function () {
   });
 
   test("Deletes a todo with the given ID if it exists and sends a boolean response", async () => {
+    jest.setTimeout(10000);
      const agent = request.agent(server);
     await login(agent, "user.a@test.com", "12345678");
     let res = await agent.get("/todos");

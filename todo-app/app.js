@@ -12,14 +12,13 @@ const session = require("express-session");
 const LocalStrategy = require("passport-local").Strategy;
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
-
 const flash = require("connect-flash");
-app.set("views", path.join(__dirname, "views"));
 
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser("ssh! some secret string"));
 app.use(csrf("this_should_be_32_character_long", ["POST", "PUT", "DELETE"]));
+app.use(express.static(path.join(__dirname, "public")));
 app.use(flash());
 
 app.use(session({
@@ -34,39 +33,7 @@ app.use(function(request, response, next) {
     next();
 });
 
-passport.use(new LocalStrategy({
-  usernameField: 'email',
-  passwordField: 'password',
-}, (username, password, done) => {
-  User.findOne({ where: { email: username } })
-  .then(async function (user) {
-    const result = await bcrypt.compare(password, user.password);
-    if (result) {
-      return done(null, user);
-    } else {
-      return done(null, false, { message: "Invalid password" });
-    }
-  })
-  .catch((error) => {
-    return done(error);
-  });
-}));
-
-passport.serializeUser((user, done) => {
-  console.log("Serializing user:", user.id);
-  done(null, user.id);
-});
-
-passport.deserializeUser((id, done) => {
-  User.findByPk(id)
-  .then(user => {
-    done(null, user);
-  })
-  .catch(error => {
-    done(error, null);
-  });
-});
-
+app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
 
@@ -110,7 +77,7 @@ app.get("/", async (request, response) => {
   });
 });
 
-app.get("/todos", connectEnsureLogin.ensureLoggedIn, async (request, response) => {
+app.get("/todos", connectEnsureLogin.ensureLoggedIn(), async (request, response) => {
   const loggedInUser = request.user.id;
     const overdue = await Todo.overdue(loggedInUser);
     const dueToday = await Todo.dueToday(loggedInUser);
@@ -130,16 +97,19 @@ app.get("/todos", connectEnsureLogin.ensureLoggedIn, async (request, response) =
   }
 });
 
-app.use(express.static(path.join(__dirname, "public")));
-
 app.get("/signup", (request, response) => {
   response.render("signup", { title: "Signup", csrfToken: request.csrfToken() })
 });
 
 app.post("/users", async (request, response) => {
-  const hashedPwd =  await bcrypt.hashSync(request.body.password, saltRounds);
-  console.log(hashedPwd);
+  const { firstName, lastName, email, password } = request.body;
+  if (!firstName || !email || !password) {
+    request.flash("error", "First name and email are required");
+    return response.redirect("/signup");
+  }
   try {
+    const hashedPwd =  await bcrypt.hash(request.body.password, saltRounds);
+    console.log(hashedPwd);
     const user = await User.create({
      firstName: request.body.firstName,
      lastName: request.body.lastName,
@@ -149,24 +119,23 @@ app.post("/users", async (request, response) => {
     request.login(user, (err) => {
       if (err) {
         console.log(err);
+        return response.status(500).send("Something went wrong!"); 
       }
-      response.redirect("/todos");
+       return response.redirect("/todos");
       });
   } catch (error) {
-      console.error(error);
+      if (error.name === "SequelizeValidationError") {
+        request.flash("error", error.errors.map((e) => e.message));
+        return response.redirect("/signup");
+      }
+      console.log(error);
+      return response.status(500).send("Something went wrong!");
   } 
 })
 
 app.get("/login", (request, response) => {
   response.render("login", { title: "Login", csrfToken: request.csrfToken() });
 })
-
-app.post("/session", passport.authenticate("local", {
-  failureRedirect: "/login",
-}), (request, response) => {
-  console.log(request.user);
-  response.redirect("/todos");
-});
 
 app.get("/signout", (request, response, next) => {
   request.logout((err) => {
@@ -177,7 +146,7 @@ app.get("/signout", (request, response, next) => {
   });
 });
 
-app.post("/todos",connectEnsureLogin.ensureLoggedIn, async function (request, response) {
+app.post("/todos",connectEnsureLogin.ensureLoggedIn(), async function (request, response) {
   if (!request.body.title || !request.body.dueDate) {
     return response.status(400).json({ error: "Title and due date are required" });
   }
@@ -208,7 +177,7 @@ app.post(
   }
 );
 
-app.put("/todos/:id",connectEnsureLogin.ensureLoggedIn, async function (request, response) {
+app.put("/todos/:id/markAsCompleted",connectEnsureLogin.ensureLoggedIn(), async function (request, response) {
   const todo = await Todo.findByPk(request.params.id);
   try {
     const updatedTodo = await todo.setCompletionStatus(request.body.completed);
@@ -219,7 +188,7 @@ app.put("/todos/:id",connectEnsureLogin.ensureLoggedIn, async function (request,
   }
 });
 
-app.delete("/todos/:id", connectEnsureLogin.ensureLoggedIn, async (request, response) => {
+app.delete("/todos/:id", connectEnsureLogin.ensureLoggedIn(), async (request, response) => {
   console.log("We have to delete a Todo with ID: ", request.params.id);
   try {
     await Todo.remove(request.params.id, request.user.id);
