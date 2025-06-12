@@ -14,7 +14,6 @@ const bcrypt = require("bcrypt");
 const saltRounds = 10;
 
 const flash = require("connect-flash");
-const path = require("path");
 app.set("views", path.join(__dirname, "views"));
 
 app.use(bodyParser.json());
@@ -49,7 +48,7 @@ passport.use(new LocalStrategy({
     }
   })
   .catch((error) => {
-    return done(err);
+    return done(error);
   });
 }));
 
