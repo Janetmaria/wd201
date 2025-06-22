@@ -71,6 +71,9 @@ passport.deserializeUser((id, done) => {
 });
 
 app.get("/", async (request, response) => {
+  if(request.isAuthenticated()) {
+    return response.redirect("/todos");
+  }
   response.render("index", {
     title: "Todo Application",
     csrfToken: request.csrfToken(),
@@ -102,7 +105,7 @@ app.get("/signup", (request, response) => {
 });
 
 app.post("/users", async (request, response) => {
-  const { firstName, lastName, email, password } = request.body;
+  const { firstName, email, password } = request.body;
   if (!firstName || !email || !password) {
     request.flash("error", "First name and email are required");
     return response.redirect("/signup");
@@ -177,7 +180,7 @@ app.post(
   }
 );
 
-app.put("/todos/:id/markAsCompleted",connectEnsureLogin.ensureLoggedIn(), async function (request, response) {
+app.put("/todos/:id/markAsCompleted",connectEnsureLogin.ensureLoggedIn(), async (request, response) => {
   const todo = await Todo.findByPk(request.params.id);
   try {
     const updatedTodo = await todo.setCompletionStatus(request.body.completed);

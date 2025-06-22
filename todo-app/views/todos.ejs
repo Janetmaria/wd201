@@ -9,7 +9,7 @@
   <script>
     var token= document.querySelector('meta[name="csrf-token"]').getAttribute('content');
     function toggleCompletionStatus(id, completed) {
-      fetch(`/todos/${id}`, {
+      fetch(`/todos/${id}/markAsCompleted`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
