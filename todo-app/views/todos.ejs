@@ -63,15 +63,14 @@
 
     // Update todo counts
     function updateCounts() {
-      const overdueCount = document.querySelectorAll('#count-overdue')[0].closest('section').querySelectorAll('.Todo-Item').length;
-      const dueTodayCount = document.querySelectorAll('#count-due-today')[0].closest('section').querySelectorAll('.Todo-Item').length;
-      const dueLaterCount = document.querySelectorAll('#count-due-later')[0].closest('section').querySelectorAll('.Todo-Item').length;
-      const completedCount = document.querySelectorAll('#count-completed')[0].closest('section').querySelectorAll('.Todo-Item').length;
-      
-      document.getElementById('count-overdue').textContent = overdueCount;
-      document.getElementById('count-due-today').textContent = dueTodayCount;
-      document.getElementById('count-due-later').textContent = dueLaterCount;
-      document.getElementById('count-completed').textContent = completedCount;
+      const sections = document.querySelectorAll('section');
+      sections.forEach(section => {
+        const countSpan = section.querySelector('[id^="count-"]');
+        if (countSpan) {
+          const rows = section.querySelectorAll('.Todo-Item');
+          countSpan.textContent = rows.length;
+        }
+      });
     }
     
     // Validate form fields
