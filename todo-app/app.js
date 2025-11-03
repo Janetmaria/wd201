@@ -17,7 +17,13 @@ const methodOverride = require("method-override");
 
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(methodOverride('_method'));
+app.use(methodOverride((req, res) => {
+  if (req.body && typeof req.body === 'object' && '_method' in req.body) {
+    const method = req.body._method;
+    delete req.body._method;
+    return method;
+  }
+}));
 app.use(cookieParser("ssh! some secret string"));
 app.use(csrf("this_should_be_32_character_long", ["POST", "PUT", "DELETE"]));
 app.use(express.static(path.join(__dirname, "public")));
