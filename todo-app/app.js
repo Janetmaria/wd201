@@ -199,8 +199,21 @@ app.put("/todos/:id/markAsCompleted",connectEnsureLogin.ensureLoggedIn(), async 
   }
 });
 
+// Handle DELETE requests (for API clients)
 app.delete("/todos/:id", connectEnsureLogin.ensureLoggedIn(), async (request, response) => {
-  console.log("We have to delete a Todo with ID: ", request.params.id);
+  console.log("DELETE request to delete Todo with ID: ", request.params.id);
+  try {
+    await Todo.remove(request.params.id, request.user.id);
+    return response.json({ success: true });
+  } catch (error) {
+    console.error(error);
+    return response.status(422).json({ error: "Failed to delete todo" });
+  }
+});
+
+// Handle POST requests (for form submissions)
+app.post("/todos/:id/delete", connectEnsureLogin.ensureLoggedIn(), async (request, response) => {
+  console.log("POST request to delete Todo with ID: ", request.params.id);
   try {
     await Todo.remove(request.params.id, request.user.id);
     return response.json({ success: true });

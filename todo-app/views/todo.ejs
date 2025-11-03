@@ -15,7 +15,7 @@
               onchange="toggleCompletionStatus(<%= todo.id %>, this.checked)" />
           </td>
           <td>
-            <form action="/todos/<%= todo.id %>?_method=DELETE" method="POST" style="display: inline;">
+            <form action="/todos/<%= todo.id %>/delete" method="POST" style="display: inline;">
               <input type="hidden" name="_csrf" value="<%= csrfToken %>">
               <button type="submit" class="delete-todo" style="background: none; border: none; color: #007bff; cursor: pointer; text-decoration: underline; padding: 0; font: inherit;">
                 Delete
@@ -45,7 +45,7 @@
               onchange="toggleCompletionStatus(<%= todo.id %>, this.checked)" />
           </td>
           <td>
-            <form action="/todos/<%= todo.id %>?_method=DELETE" method="POST" style="display: inline;">
+            <form action="/todos/<%= todo.id %>/delete" method="POST" style="display: inline;">
               <input type="hidden" name="_csrf" value="<%= csrfToken %>">
               <button type="submit" class="delete-todo" style="background: none; border: none; color: #007bff; cursor: pointer; text-decoration: underline; padding: 0; font: inherit;">
                 Delete
@@ -75,7 +75,7 @@
               onchange="toggleCompletionStatus(<%= todo.id %>, this.checked)" />
           </td>
           <td>
-            <form action="/todos/<%= todo.id %>?_method=DELETE" method="POST" style="display: inline;">
+            <form action="/todos/<%= todo.id %>/delete" method="POST" style="display: inline;">
               <input type="hidden" name="_csrf" value="<%= csrfToken %>">
               <button type="submit" class="delete-todo" style="background: none; border: none; color: #007bff; cursor: pointer; text-decoration: underline; padding: 0; font: inherit;">
                 Delete
@@ -105,7 +105,7 @@
               checked onchange="toggleCompletionStatus(<%= todo.id %>, this.checked)" />
           </td>
           <td>
-            <form action="/todos/<%= todo.id %>?_method=DELETE" method="POST" style="display: inline;">
+            <form action="/todos/<%= todo.id %>/delete" method="POST" style="display: inline;">
               <input type="hidden" name="_csrf" value="<%= csrfToken %>">
               <button type="submit" class="delete-todo" style="background: none; border: none; color: #007bff; cursor: pointer; text-decoration: underline; padding: 0; font: inherit;">
                 Delete
