@@ -15,11 +15,7 @@
               onchange="toggleCompletionStatus(<%= todo.id %>, this.checked)" />
           </td>
           <td>
-            <form action="/todos/<%= todo.id %>" method="POST" style="display: inline;">
-              <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
-              <input type="hidden" name="_method" value="DELETE" />
-              <button type="submit" class="delete-todo">Delete</button>
-            </form>
+            <a href="#" class="delete-todo" onclick="deleteTodo(<%= todo.id %>); return false;">Delete</a>
           </td>
         </tr>
       <% }) %>
@@ -44,11 +40,7 @@
               onchange="toggleCompletionStatus(<%= todo.id %>, this.checked)" />
           </td>
           <td>
-            <form action="/todos/<%= todo.id %>" method="POST" style="display: inline;">
-              <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
-              <input type="hidden" name="_method" value="DELETE" />
-              <button type="submit" class="delete-todo">Delete</button>
-            </form>
+            <a href="#" class="delete-todo" onclick="deleteTodo(<%= todo.id %>); return false;">Delete</a>
           </td>
         </tr>
       <% }) %>
@@ -73,11 +65,7 @@
               onchange="toggleCompletionStatus(<%= todo.id %>, this.checked)" />
           </td>
           <td>
-            <form action="/todos/<%= todo.id %>" method="POST" style="display: inline;">
-              <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
-              <input type="hidden" name="_method" value="DELETE" />
-              <button type="submit" class="delete-todo">Delete</button>
-            </form>
+            <a href="#" class="delete-todo" onclick="deleteTodo(<%= todo.id %>); return false;">Delete</a>
           </td>
         </tr>
       <% }) %>
@@ -102,11 +90,7 @@
               checked onchange="toggleCompletionStatus(<%= todo.id %>, this.checked)" />
           </td>
           <td>
-            <form action="/todos/<%= todo.id %>" method="POST" style="display: inline;">
-              <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
-              <input type="hidden" name="_method" value="DELETE" />
-              <button type="submit" class="delete-todo">Delete</button>
-            </form>
+            <a href="#" class="delete-todo" onclick="deleteTodo(<%= todo.id %>); return false;">Delete</a>
           </td>
         </tr>
       <% }) %>

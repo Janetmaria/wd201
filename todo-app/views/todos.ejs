@@ -35,42 +35,10 @@
       })
       .then((res) => {
         if (res.ok) {
-          return res.json();
-        } else {
-          throw new Error('Delete failed');
+          window.location.reload();
         }
       })
-      .then((data) => {
-        if (data.success) {
-          // Remove the todo item from DOM
-          const todoElement = document.querySelector(`#todo-${id}`);
-          if (todoElement) {
-            const row = todoElement.closest('tr');
-            if (row) {
-              row.remove();
-              // Update counts
-              updateCounts();
-            }
-          }
-        }
-      })
-      .catch((err) => {
-        console.error(err);
-        // Fallback to reload on error
-        window.location.reload();
-      }); 
-    }
-
-    // Update todo counts
-    function updateCounts() {
-      const sections = document.querySelectorAll('section');
-      sections.forEach(section => {
-        const countSpan = section.querySelector('[id^="count-"]');
-        if (countSpan) {
-          const rows = section.querySelectorAll('.Todo-Item');
-          countSpan.textContent = rows.length;
-        }
-      });
+      .catch((err) => console.error(err)); 
     }
     
     // Validate form fields
