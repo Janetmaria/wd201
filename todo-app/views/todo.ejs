@@ -15,7 +15,7 @@
               onchange="toggleCompletionStatus(<%= todo.id %>, this.checked)" />
           </td>
           <td>
-            <button onclick="deleteTodo(<%= todo.id %>)">🗑</button>
+            <button data-testid="delete-todo-<%= todo.id %>" onclick="deleteTodo(<%= todo.id %>)" aria-label="Delete todo">🗑</button>
           </td>
         </tr>
       <% }) %>
@@ -40,7 +40,7 @@
               onchange="toggleCompletionStatus(<%= todo.id %>, this.checked)" />
           </td>
           <td>
-            <button onclick="deleteTodo(<%= todo.id %>)">🗑</button>
+            <button data-testid="delete-todo-<%= todo.id %>" onclick="deleteTodo(<%= todo.id %>)" aria-label="Delete todo">🗑</button>
           </td>
         </tr>
       <% }) %>
@@ -65,7 +65,7 @@
               onchange="toggleCompletionStatus(<%= todo.id %>, this.checked)" />
           </td>
           <td>
-            <button onclick="deleteTodo(<%= todo.id %>)">🗑</button>
+            <button data-testid="delete-todo-<%= todo.id %>" onclick="deleteTodo(<%= todo.id %>)" aria-label="Delete todo">🗑</button>
           </td>
         </tr>
       <% }) %>
@@ -90,7 +90,7 @@
               checked onchange="toggleCompletionStatus(<%= todo.id %>, this.checked)" />
           </td>
           <td>
-            <button onclick="deleteTodo(<%= todo.id %>)">🗑</button>
+            <button data-testid="delete-todo-<%= todo.id %>" onclick="deleteTodo(<%= todo.id %>)" aria-label="Delete todo">🗑</button>
           </td>
         </tr>
       <% }) %>
