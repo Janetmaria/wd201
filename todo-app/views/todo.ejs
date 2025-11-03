@@ -15,7 +15,7 @@
               onchange="toggleCompletionStatus(<%= todo.id %>, this.checked)" />
           </td>
           <td>
-            <a href="#" id="delete-todo-<%= todo.id %>" class="delete-todo" data-id="<%= todo.id %>" onclick="deleteTodo(<%= todo.id %>); return false;" aria-label="Delete todo">🗑</a>
+            <button type="button" id="delete-todo-<%= todo.id %>" class="delete-todo" data-id="<%= todo.id %>" onclick="deleteTodo(<%= todo.id %>)">Delete</button>
           </td>
         </tr>
       <% }) %>
@@ -40,7 +40,7 @@
               onchange="toggleCompletionStatus(<%= todo.id %>, this.checked)" />
           </td>
           <td>
-            <a href="#" id="delete-todo-<%= todo.id %>" class="delete-todo" data-id="<%= todo.id %>" onclick="deleteTodo(<%= todo.id %>); return false;" aria-label="Delete todo">🗑</a>
+            <button type="button" id="delete-todo-<%= todo.id %>" class="delete-todo" data-id="<%= todo.id %>" onclick="deleteTodo(<%= todo.id %>)">Delete</button>
           </td>
         </tr>
       <% }) %>
@@ -65,7 +65,7 @@
               onchange="toggleCompletionStatus(<%= todo.id %>, this.checked)" />
           </td>
           <td>
-            <a href="#" id="delete-todo-<%= todo.id %>" class="delete-todo" data-id="<%= todo.id %>" onclick="deleteTodo(<%= todo.id %>); return false;" aria-label="Delete todo">🗑</a>
+            <button type="button" id="delete-todo-<%= todo.id %>" class="delete-todo" data-id="<%= todo.id %>" onclick="deleteTodo(<%= todo.id %>)">Delete</button>
           </td>
         </tr>
       <% }) %>
@@ -90,7 +90,7 @@
               checked onchange="toggleCompletionStatus(<%= todo.id %>, this.checked)" />
           </td>
           <td>
-            <a href="#" id="delete-todo-<%= todo.id %>" class="delete-todo" data-id="<%= todo.id %>" onclick="deleteTodo(<%= todo.id %>); return false;" aria-label="Delete todo">🗑</a>
+            <button type="button" id="delete-todo-<%= todo.id %>" class="delete-todo" data-id="<%= todo.id %>" onclick="deleteTodo(<%= todo.id %>)">Delete</button>
           </td>
         </tr>
       <% }) %>
