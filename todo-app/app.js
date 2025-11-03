@@ -85,7 +85,7 @@ app.get("/todos", connectEnsureLogin.ensureLoggedIn(), async (request, response)
     const overdue = await Todo.overdue(loggedInUser);
     const dueToday = await Todo.dueToday(loggedInUser);
     const dueLater = await Todo.dueLater(loggedInUser);
-    const completed = await Todo.findAll({ where: { completed: true } });
+    const completed = await Todo.findAll({ where: { completed: true, userId: loggedInUser } });
   if (request.accepts("html")) {
     return response.render("todos", {
       title: "Todo Application",
