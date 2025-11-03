@@ -188,14 +188,24 @@ app.post(
   }
 );
 
-app.put("/todos/:id/markAsCompleted",connectEnsureLogin.ensureLoggedIn(), async (request, response) => {
-  const todo = await Todo.findByPk(request.params.id);
+app.put("/todos/:id/markAsCompleted", connectEnsureLogin.ensureLoggedIn(), async (request, response) => {
   try {
+    const todo = await Todo.findOne({
+      where: {
+        id: request.params.id,
+        userId: request.user.id // Ensure the todo belongs to the logged-in user
+      }
+    });
+
+    if (!todo) {
+      return response.status(404).json({ error: "Todo not found" });
+    }
+
     const updatedTodo = await todo.setCompletionStatus(request.body.completed);
     return response.json(updatedTodo);
   } catch (error) {
-    console.error(error);
-    return response.status(422).json(error);
+    console.error("Error updating todo:", error);
+    return response.status(500).json({ error: "Failed to update todo" });
   }
 });
 

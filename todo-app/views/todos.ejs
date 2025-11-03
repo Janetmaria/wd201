@@ -16,12 +16,22 @@
         },
         body: JSON.stringify({ completed: completed, _csrf: token }),
       })
-      .then((res) => {
-        if (res.ok) {
-          window.location.reload();
+      .then(async (res) => {
+        if (!res.ok) {
+          const error = await res.json();
+          throw new Error(error.error || 'Failed to update todo');
         }
+        return res.json();
       })
-      .catch((err) => console.error(err));
+      .then((data) => {
+        console.log('Todo updated successfully:', data);
+        window.location.reload();
+      })
+      .catch((err) => {
+        console.error('Error updating todo:', err);
+        alert(err.message || 'Failed to update todo. Please try again.');
+        window.location.reload(); // Reload to sync UI with server state
+      });
     }
 
     // Delete Todo
