@@ -42,10 +42,36 @@
       })
       .then((data) => {
         if (data.success) {
-          window.location.reload();
+          // Remove the todo item from DOM
+          const todoElement = document.querySelector(`#todo-${id}`);
+          if (todoElement) {
+            const row = todoElement.closest('tr');
+            if (row) {
+              row.remove();
+              // Update counts
+              updateCounts();
+            }
+          }
         }
       })
-      .catch((err) => console.error(err)); 
+      .catch((err) => {
+        console.error(err);
+        // Fallback to reload on error
+        window.location.reload();
+      }); 
+    }
+
+    // Update todo counts
+    function updateCounts() {
+      const overdueCount = document.querySelectorAll('#count-overdue')[0].closest('section').querySelectorAll('.Todo-Item').length;
+      const dueTodayCount = document.querySelectorAll('#count-due-today')[0].closest('section').querySelectorAll('.Todo-Item').length;
+      const dueLaterCount = document.querySelectorAll('#count-due-later')[0].closest('section').querySelectorAll('.Todo-Item').length;
+      const completedCount = document.querySelectorAll('#count-completed')[0].closest('section').querySelectorAll('.Todo-Item').length;
+      
+      document.getElementById('count-overdue').textContent = overdueCount;
+      document.getElementById('count-due-today').textContent = dueTodayCount;
+      document.getElementById('count-due-later').textContent = dueLaterCount;
+      document.getElementById('count-completed').textContent = completedCount;
     }
     
     // Validate form fields
