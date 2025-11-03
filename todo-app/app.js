@@ -5,6 +5,7 @@ const app = express();
 const { Todo, User } = require("./models");
 const bodyParser = require("body-parser");
 const path = require("path");
+const methodOverride = require("method-override");
 
 const passport = require("passport");
 const connectEnsureLogin = require("connect-ensure-login");
@@ -16,6 +17,7 @@ const flash = require("connect-flash");
 
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(methodOverride("_method"));
 app.use(cookieParser("ssh! some secret string"));
 app.use(csrf("this_should_be_32_character_long", ["POST", "PUT", "DELETE"]));
 app.use(express.static(path.join(__dirname, "public")));
